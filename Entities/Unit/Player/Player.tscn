@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://besuw3mv1vnxk"]
+
+[ext_resource type="Script" path="res://Entities/Unit/Player/Player.gd" id="1_1jl2n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jpnxp"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ixrvf"]
+size = Vector2(64, 64)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_1jl2n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jpnxp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("PlaceholderTexture2D_ixrvf")
