@@ -33,6 +33,8 @@ func on_selection_created(start_position: Vector2, end_position: Vector2) -> voi
 	selected = false
 	modulate = Color(1, 1, 1)
 	var selection_rect = Rect2(start_position, end_position - start_position).abs()
+	#adjust has point to include the size of the player
+
 	if selection_rect.has_point(global_position):
 		selected = true
 		modulate = Color(1, 1, 0.5)

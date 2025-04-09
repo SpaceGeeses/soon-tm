@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 var start_position: Vector2
 var current_position: Vector2
@@ -23,5 +23,5 @@ func _input(event: InputEvent) -> void:
 func _draw() -> void:
 	if start_drawing:
 		draw_rect(
-			Rect2(start_position, current_position - start_position), Color(0, 0, 0, 0.6), false, 1
+			Rect2(start_position, current_position - start_position), Color(0, 0, 0, 1.0), false, 2
 		)
