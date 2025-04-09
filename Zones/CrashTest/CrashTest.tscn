@@ -1,7 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dehffd0c7baet"]
+[gd_scene load_steps=3 format=3 uid="uid://dehffd0c7baet"]
 
 [ext_resource type="PackedScene" uid="uid://besuw3mv1vnxk" path="res://Entities/Unit/Player/Player.tscn" id="1_qoiun"]
+[ext_resource type="PackedScene" uid="uid://bg1vgbqx8467n" path="res://Entities/Selection/Selection.tscn" id="2_4ysge"]
 
 [node name="CrashTest" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource("1_qoiun")]
+position = Vector2(108, 77)
+
+[node name="Selection" parent="." instance=ExtResource("2_4ysge")]
+
+[node name="Player2" parent="." instance=ExtResource("1_qoiun")]

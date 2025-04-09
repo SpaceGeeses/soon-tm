@@ -8,6 +8,7 @@ var start_drawing: bool = false
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("lmb"):
 		if !start_drawing:
+			current_position = get_global_mouse_position()
 			start_position = get_global_mouse_position()
 			start_drawing = true
 	if start_drawing and event is InputEventMouseMotion:
@@ -15,11 +16,11 @@ func _input(event: InputEvent) -> void:
 
 	if event.is_action_released("lmb"):
 		start_drawing = false
+		EventBus.selection_created.emit(start_position, current_position)
 	queue_redraw()
 
 
 func _draw() -> void:
-	print("Drawing selection rect at: ", start_position, " to ", current_position)
 	if start_drawing:
 		draw_rect(
 			Rect2(start_position, current_position - start_position), Color(0, 0, 0, 0.6), false, 1

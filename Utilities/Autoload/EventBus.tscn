@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b22iiqb8umidj"]
+
+[ext_resource type="Script" path="res://Utilities/Autoload/EventBus.gd" id="1_ox2lf"]
+
+[node name="EventBus" type="Node"]
+script = ExtResource("1_ox2lf")
