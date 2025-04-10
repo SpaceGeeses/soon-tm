@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp82efovbvgrv"]
+
+[ext_resource type="Script" path="res://Entities/Camera/camera.gd" id="1_d5t4s"]
+
+[node name="Camera" type="Camera2D"]
+script = ExtResource("1_d5t4s")
+edge_pan_speed = 1000.0

@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 var start_position: Vector2
 var current_position: Vector2

@@ -1,16 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://dehffd0c7baet"]
+[gd_scene load_steps=5 format=3 uid="uid://dehffd0c7baet"]
 
 [ext_resource type="PackedScene" uid="uid://besuw3mv1vnxk" path="res://Entities/Unit/Player/Player.tscn" id="1_qoiun"]
+[ext_resource type="PackedScene" uid="uid://dvoagdcqol0uo" path="res://Zones/Tilemaps/Development/DevTileset.tscn" id="1_y343o"]
 [ext_resource type="PackedScene" uid="uid://bg1vgbqx8467n" path="res://UI/HUD/Selection/Selection.tscn" id="2_4ysge"]
+[ext_resource type="PackedScene" uid="uid://bp82efovbvgrv" path="res://Entities/Camera/Camera.tscn" id="4_xn0d8"]
 
 [node name="CrashTest" type="Node"]
 
-[node name="Player" parent="." instance=ExtResource("1_qoiun")]
-position = Vector2(108, 77)
+[node name="Map" parent="." instance=ExtResource("1_y343o")]
 
-[node name="Selection" parent="." instance=ExtResource("2_4ysge")]
+[node name="Map2" parent="." instance=ExtResource("1_y343o")]
+position = Vector2(320, 159)
+
+[node name="Map4" parent="." instance=ExtResource("1_y343o")]
+position = Vector2(-320, 159)
+
+[node name="Map3" parent="." instance=ExtResource("1_y343o")]
+position = Vector2(0, 318)
+
+[node name="Player" parent="." instance=ExtResource("1_qoiun")]
+position = Vector2(125, 100)
 
 [node name="Player2" parent="." instance=ExtResource("1_qoiun")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
+[node name="Camera" parent="." instance=ExtResource("4_xn0d8")]
+
+[node name="Selection" parent="." instance=ExtResource("2_4ysge")]
