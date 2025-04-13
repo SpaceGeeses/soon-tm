@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://besuw3mv1vnxk"]
+[gd_scene load_steps=14 format=3 uid="uid://besuw3mv1vnxk"]
 
 [ext_resource type="Script" path="res://Entities/Unit/Player/Player.gd" id="1_1jl2n"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_ewwy7"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_je32e"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="3_e77gg"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_k1412"]
@@ -28,6 +29,18 @@ state = NodePath("../../../SelectedState/Selected")
 
 [node name="Player" type="CharacterBody2D" groups=["selectable"]]
 script = ExtResource("1_1jl2n")
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("2_ewwy7")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -188.0
+offset_top = -176.0
+offset_right = -17.0
+offset_bottom = -16.0
+grow_horizontal = 1
+grow_vertical = 1
+initial_node_to_watch = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("PlaceholderTexture2D_4kiai")
