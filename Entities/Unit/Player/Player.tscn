@@ -1,20 +1,107 @@
-[gd_scene load_steps=4 format=3 uid="uid://besuw3mv1vnxk"]
+[gd_scene load_steps=13 format=3 uid="uid://besuw3mv1vnxk"]
 
 [ext_resource type="Script" path="res://Entities/Unit/Player/Player.gd" id="1_1jl2n"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_je32e"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="3_e77gg"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_k1412"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="5_w1y8l"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="6_sirwx"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="7_pf3cj"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4kiai"]
-size = Vector2(16, 16)
+size = Vector2(32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jpnxp"]
-radius = 16.1245
+radius = 16.0
+
+[sub_resource type="Resource" id="Resource_q8jw3"]
+script = ExtResource("7_pf3cj")
+state = NodePath("../../../SelectedState/Selected")
+
+[sub_resource type="Resource" id="Resource_77ahf"]
+script = ExtResource("7_pf3cj")
+state = NodePath("../../../SelectedState/Selected")
+
+[sub_resource type="Resource" id="Resource_lkenm"]
+script = ExtResource("7_pf3cj")
+state = NodePath("../../../SelectedState/Selected")
 
 [node name="Player" type="CharacterBody2D" groups=["selectable"]]
 script = ExtResource("1_1jl2n")
-max_speed = 100
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
 texture = SubResource("PlaceholderTexture2D_4kiai")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_jpnxp")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("2_je32e")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("3_e77gg")
+
+[node name="SelectedState" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_k1412")
+initial_state = NodePath("Unselected")
+
+[node name="Unselected" type="Node" parent="StateChart/Root/SelectedState"]
+script = ExtResource("5_w1y8l")
+
+[node name="Selected" type="Node" parent="StateChart/Root/SelectedState/Unselected"]
+script = ExtResource("6_sirwx")
+to = NodePath("../../Selected")
+event = &"selected"
+delay_in_seconds = "0.0"
+
+[node name="Selected" type="Node" parent="StateChart/Root/SelectedState"]
+script = ExtResource("5_w1y8l")
+
+[node name="Transition" type="Node" parent="StateChart/Root/SelectedState/Selected"]
+script = ExtResource("6_sirwx")
+to = NodePath("../../Unselected")
+event = &"deselected"
+delay_in_seconds = "0.0"
+
+[node name="ActionState" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_k1412")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root/ActionState"]
+script = ExtResource("5_w1y8l")
+
+[node name="Transition" type="Node" parent="StateChart/Root/ActionState/Idle"]
+script = ExtResource("6_sirwx")
+to = NodePath("../../DetermineInputContext")
+event = &"determine_input_context"
+guard = SubResource("Resource_q8jw3")
+delay_in_seconds = "0.0"
+
+[node name="DetermineInputContext" type="Node" parent="StateChart/Root/ActionState"]
+script = ExtResource("5_w1y8l")
+
+[node name="Transition" type="Node" parent="StateChart/Root/ActionState/DetermineInputContext"]
+script = ExtResource("6_sirwx")
+to = NodePath("../../Pathing")
+event = &"path_to_flag"
+guard = SubResource("Resource_77ahf")
+delay_in_seconds = "0.0"
+
+[node name="Pathing" type="Node" parent="StateChart/Root/ActionState"]
+script = ExtResource("5_w1y8l")
+
+[node name="Transition" type="Node" parent="StateChart/Root/ActionState/Pathing"]
+script = ExtResource("6_sirwx")
+to = NodePath("../../DetermineInputContext")
+event = &"determine_input_context"
+guard = SubResource("Resource_lkenm")
+delay_in_seconds = "0.0"
+
+[connection signal="state_entered" from="StateChart/Root/SelectedState/Unselected" to="." method="_on_unselected_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/SelectedState/Selected" to="." method="_on_selected_state_entered"]
+[connection signal="state_input" from="StateChart/Root/ActionState/Idle" to="." method="_on_idle_state_input"]
+[connection signal="state_entered" from="StateChart/Root/ActionState/DetermineInputContext" to="." method="_on_determine_input_context_state_entered"]
+[connection signal="state_input" from="StateChart/Root/ActionState/Pathing" to="." method="_on_pathing_state_input"]
+[connection signal="state_physics_processing" from="StateChart/Root/ActionState/Pathing" to="." method="_on_pathing_state_physics_processing"]

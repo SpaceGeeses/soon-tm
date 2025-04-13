@@ -1,40 +1,59 @@
 extends CharacterBody2D
-@export var max_speed: int = 300
-@onready var sprite = $Sprite2D
+class_name Player
 
-var target_position = Vector2()
-var arrive_radius = 1
-var selected = false
+@onready var sprite = $Sprite2D
+@onready var state_chart = $StateChart
+@onready var navigation_agent = $NavigationAgent2D
 
 
 func _ready():
-	EventBus.selection_created.connect(on_selection_created)
-	target_position = position
+	EventBus.selection_created.connect(_on_selection_created)
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("rmb") and selected:
-		target_position = get_global_mouse_position()
-
-
-func _process(delta: float) -> void:
-	var direction = (target_position - position).normalized()
-	var distance_to_target = position.distance_to(target_position)
-
-	if distance_to_target < arrive_radius:
-		velocity = Vector2()
+func _on_selection_created(start_position: Vector2, end_position: Vector2) -> void:
+	var selection_rect = Rect2(start_position, end_position - start_position).abs()
+	var sprite_global_rect = Rect2(
+		global_position - sprite.texture.get_size() * sprite.scale / 2,
+		sprite.texture.get_size() * sprite.scale
+	)
+	if selection_rect.intersects(sprite_global_rect):
+		state_chart.send_event("selected")
 	else:
-		velocity = direction * max_speed
+		state_chart.send_event("deselected")
 
+
+func _on_selected_state_entered() -> void:
+	modulate = Color.BLUE
+
+
+func _on_unselected_state_entered() -> void:
+	modulate = Color.WHITE
+
+
+func _on_idle_state_input(event: InputEvent) -> void:
+	if event.is_action_pressed("rmb"):
+		validate_input()
+
+
+func _on_pathing_state_physics_processing(_delta: float) -> void:
+	var path_positioning = navigation_agent.get_next_path_position()
+	velocity = (path_positioning - position).normalized() * navigation_agent.max_speed
 	move_and_slide()
 
 
-func on_selection_created(start_position: Vector2, end_position: Vector2) -> void:
-	selected = false
-	modulate = Color(1, 1, 1)
-	var selection_rect = Rect2(start_position, end_position - start_position).abs()
-	#adjust has point to include the size of the player
+func _on_pathing_state_input(event: InputEvent) -> void:
+	if event.is_action_pressed("rmb"):
+		validate_input()
 
-	if selection_rect.has_point(global_position):
-		selected = true
-		modulate = Color(1, 1, 0.5)
+
+func _on_determine_input_context_state_entered() -> void:
+	var target = state_chart.get_expression_property("target_position")
+	if target:
+		navigation_agent.set_target_position(target)
+		state_chart.send_event("path_to_flag")
+
+
+func validate_input() -> void:
+	var target_position = get_global_mouse_position()
+	state_chart.set_expression_property("target_position", target_position)
+	state_chart.send_event("determine_input_context")

@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dehffd0c7baet"]
+[gd_scene load_steps=7 format=3 uid="uid://dehffd0c7baet"]
 
 [ext_resource type="PackedScene" uid="uid://besuw3mv1vnxk" path="res://Entities/Unit/Player/Player.tscn" id="1_qoiun"]
-[ext_resource type="PackedScene" uid="uid://dvoagdcqol0uo" path="res://Zones/Tilemaps/Development/DevTileset.tscn" id="1_y343o"]
+[ext_resource type="PackedScene" uid="uid://dvoagdcqol0uo" path="res://Zones/Tilemaps/DevTileset.tscn" id="1_y343o"]
 [ext_resource type="PackedScene" uid="uid://bg1vgbqx8467n" path="res://UI/HUD/Selection/Selection.tscn" id="2_4ysge"]
 [ext_resource type="PackedScene" uid="uid://bp82efovbvgrv" path="res://Entities/Camera/Camera.tscn" id="4_xn0d8"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="5_ihep2"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_28xox"]
+vertices = PackedVector2Array(930.773, 318.094, 317.977, 629.789, -298.68, 318.078, 316.992, 12.1719)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-321, 318, 317, 1, 953, 318, 318, 641)])
 
 [node name="CrashTest" type="Node"]
 
@@ -26,3 +32,13 @@ position = Vector2(125, 100)
 [node name="Camera" parent="." instance=ExtResource("4_xn0d8")]
 
 [node name="Selection" parent="." instance=ExtResource("2_4ysge")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_28xox")
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("5_ihep2")]
+offset_left = -159.0
+offset_top = -165.0
+offset_right = -1017.0
+offset_bottom = -652.0
+initial_node_to_watch = NodePath("../Player")
