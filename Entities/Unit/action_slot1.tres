@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ActionSlot" load_steps=3 format=3 uid="uid://cxvwlnfk4d3vl"]
+
+[ext_resource type="Resource" uid="uid://bqtrg7hu2jdx6" path="res://UI/example_ability.tres" id="1_4ibu2"]
+[ext_resource type="Script" uid="uid://ddhqvecmyhdqj" path="res://Entities/Unit/Resources/action_slot.gd" id="1_22in8"]
+
+[resource]
+script = ExtResource("1_22in8")
+ability = ExtResource("1_4ibu2")
+input_action = "1"
+metadata/_custom_type_script = "uid://ddhqvecmyhdqj"

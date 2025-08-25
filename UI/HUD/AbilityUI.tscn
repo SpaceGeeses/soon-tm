@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://nnxa7xf2p61g"]
+
+[ext_resource type="Script" uid="uid://b43rg4xd0da5u" path="res://UI/HUD/ability_ui.gd" id="1_46euw"]
+[ext_resource type="PackedScene" uid="uid://b2yyql1utnu4a" path="res://UI/HUD/Cooldown.tscn" id="2_imjy2"]
+
+[node name="AbilityUi" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+script = ExtResource("1_46euw")
+cooldown = ExtResource("2_imjy2")

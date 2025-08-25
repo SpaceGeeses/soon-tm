@@ -1,0 +1,63 @@
+[gd_scene load_steps=15 format=3 uid="uid://80nxlykluyr6"]
+
+[ext_resource type="PackedScene" uid="uid://by6jm1cpjh7uy" path="res://Entities/Unit/Components/HealthComponent.tscn" id="1_8ie8c"]
+[ext_resource type="Script" uid="uid://0j6ndqo13jnn" path="res://Entities/Unit/player_unit.gd" id="1_ur8kl"]
+[ext_resource type="PackedScene" uid="uid://8h2gana556w5" path="res://Entities/Unit/Components/AbilityController.tscn" id="2_m038b"]
+[ext_resource type="PackedScene" uid="uid://ctg07c8tl8g0x" path="res://Entities/Unit/Components/PlayerHealthBar.tscn" id="3_5nddr"]
+[ext_resource type="PackedScene" uid="uid://b74d1gtgso3km" path="res://Entities/Unit/Components/MovementComponent.tscn" id="4_h5v1d"]
+[ext_resource type="Resource" uid="uid://bqtrg7hu2jdx6" path="res://UI/example_ability.tres" id="4_qpfcq"]
+[ext_resource type="Resource" uid="uid://b6v78l2kl6yq" path="res://Entities/Unit/example_player.tres" id="5_w1t6f"]
+[ext_resource type="PackedScene" uid="uid://b41gd5s1rnl2s" path="res://Entities/Unit/Components/AbilityInputController.tscn" id="9_qpfcq"]
+[ext_resource type="Resource" uid="uid://b6chfuno7j46y" path="res://Entities/Unit/action_slot2.tres" id="9_s627u"]
+[ext_resource type="PackedScene" uid="uid://nnxa7xf2p61g" path="res://UI/HUD/AbilityUI.tscn" id="10_2de7i"]
+[ext_resource type="PackedScene" uid="uid://evuyyv781vtt" path="res://UI/HUD/BottomAnchor.tscn" id="10_s627u"]
+[ext_resource type="Script" uid="uid://ddhqvecmyhdqj" path="res://Entities/Unit/Resources/action_slot.gd" id="10_ureln"]
+
+[sub_resource type="Resource" id="Resource_b7105"]
+script = ExtResource("10_ureln")
+ability = ExtResource("4_qpfcq")
+input_action = "1"
+metadata/_custom_type_script = "uid://ddhqvecmyhdqj"
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ur8kl"]
+size = Vector2(32, 32)
+
+[node name="PlayerUnit" type="CharacterBody2D" node_paths=PackedStringArray("health_component", "movement_component")]
+script = ExtResource("1_ur8kl")
+health_component = NodePath("HealthComponent")
+movement_component = NodePath("MovementComponent")
+
+[node name="AbilityController" parent="." instance=ExtResource("2_m038b")]
+
+[node name="HealthComponent" parent="." instance=ExtResource("1_8ie8c")]
+stats = ExtResource("5_w1t6f")
+
+[node name="MovementComponent" parent="." instance=ExtResource("4_h5v1d")]
+stats = ExtResource("5_w1t6f")
+
+[node name="AbilityInputController" parent="." node_paths=PackedStringArray("ability_controller", "caster") instance=ExtResource("9_qpfcq")]
+slots = Array[ExtResource("10_ureln")]([SubResource("Resource_b7105"), ExtResource("9_s627u")])
+ability_controller = NodePath("../AbilityController")
+caster = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_ur8kl")
+
+[node name="PlayerHealthBar" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_5nddr")]
+offset_left = -74.0
+offset_top = -42.0
+offset_right = 75.0
+offset_bottom = -23.0
+health_component = NodePath("../HealthComponent")
+
+[node name="BottomAnchor" parent="." instance=ExtResource("10_s627u")]
+
+[node name="AbilityUi" parent="BottomAnchor" node_paths=PackedStringArray("controller", "ability_input") instance=ExtResource("10_2de7i")]
+offset_left = -960.0
+offset_top = -1080.0
+offset_right = -960.0
+offset_bottom = -1080.0
+controller = NodePath("../../AbilityController")
+ability_input = NodePath("../../AbilityInputController")

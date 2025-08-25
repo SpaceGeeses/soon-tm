@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctg07c8tl8g0x"]
+
+[ext_resource type="Script" uid="uid://bu171aaevtpar" path="res://Entities/Unit/Components/player_health_bar.gd" id="1_ebi61"]
+
+[node name="PlayerHealthBar" type="ProgressBar"]
+offset_right = 149.0
+offset_bottom = 19.0
+show_percentage = false
+script = ExtResource("1_ebi61")

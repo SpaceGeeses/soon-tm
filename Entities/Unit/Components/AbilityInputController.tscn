@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b41gd5s1rnl2s"]
+
+[ext_resource type="Script" uid="uid://coxp3i1e3txkg" path="res://Entities/Unit/Components/ability_input_controller.gd" id="1_oe7sk"]
+
+[node name="AbilityInputController" type="Node"]
+script = ExtResource("1_oe7sk")

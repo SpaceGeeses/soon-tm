@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2yyql1utnu4a"]
+
+[ext_resource type="Script" uid="uid://w4lfckucwhb1" path="res://UI/HUD/cooldown.gd" id="1_fjfb7"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fjfb7"]
+size = Vector2(64, 64)
+
+[node name="Cooldown" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+script = ExtResource("1_fjfb7")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 64.0
+offset_bottom = 63.0
+max_value = 1.0
+step = 0.1
+fill_mode = 4
+texture_progress = SubResource("PlaceholderTexture2D_fjfb7")

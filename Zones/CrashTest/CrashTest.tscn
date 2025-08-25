@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://df52w0uamfaot"]
+
+[ext_resource type="PackedScene" uid="uid://80nxlykluyr6" path="res://Entities/Unit/PlayerUnit.tscn" id="1_xthlw"]
+
+[node name="CrashTest" type="Node2D"]
+position = Vector2(178, 128)
+
+[node name="PlayerUnit" parent="." instance=ExtResource("1_xthlw")]
